@@ -61,5 +61,9 @@ export function setupVotifier() {
         }
     });
 
+    server.on('error', (error) => {
+        logger.error('Error: ' + error);
+    });
+
     logger.info(`Votifier server listening on port ${process.env.VOTIFIER_PORT}`);
 }

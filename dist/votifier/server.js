@@ -38,6 +38,7 @@ class VotifierServer extends events.EventEmitter {
     }
     handleConnection(socket) {
         logger_1.votifierLogger.debug('New connection');
+        // logger.debug(socket);
         socket.on('data', (bData) => {
             logger_1.votifierLogger.debug('Received data');
             logger_1.votifierLogger.debug(bData.toString());
