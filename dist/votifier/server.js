@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VotifierServer = void 0;
 const net = __importStar(require("net"));
 const events = __importStar(require("events"));
+const logger_1 = require("../logger");
 class VotifierServer extends events.EventEmitter {
     constructor(port) {
         super();
@@ -36,7 +37,10 @@ class VotifierServer extends events.EventEmitter {
         this.server.listen(port);
     }
     handleConnection(socket) {
+        logger_1.votifierLogger.debug('New connection');
         socket.once('data', (bData) => {
+            logger_1.votifierLogger.debug('Received data');
+            logger_1.votifierLogger.debug(bData.toString());
             if (bData.length !== 256) {
                 socket.end('Bad data length');
                 socket.destroy();

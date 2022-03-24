@@ -1,6 +1,8 @@
 import * as net from 'net';
 import * as events from 'events';
 
+import { votifierLogger as logger } from '../logger';
+
 export declare interface VotifierServer {
     port: number;
     server: net.Server;
@@ -26,7 +28,10 @@ export class VotifierServer extends events.EventEmitter {
     }
 
     public handleConnection(socket: net.Socket) {
+        logger.debug('New connection');
         socket.once('data', (bData) => {
+            logger.debug('Received data');
+            logger.debug(bData.toString());
             if (bData.length !== 256) {
                 socket.end('Bad data length');
                 socket.destroy();
