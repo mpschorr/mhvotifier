@@ -44,6 +44,7 @@ class VotifierServer extends events.EventEmitter {
                 return;
             }
             this.emit('data', bData);
+            socket.write('VOTIFIER MHVOTIFIER');
             return socket.destroy();
         });
     }

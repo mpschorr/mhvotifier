@@ -35,6 +35,7 @@ export class VotifierServer extends events.EventEmitter {
             }
 
             this.emit('data', bData);
+            socket.write('VOTIFIER MHVOTIFIER');
             return socket.destroy();
         });
     }
