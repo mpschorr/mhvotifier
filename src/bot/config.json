@@ -1,0 +1,47 @@
+{
+    "embed": {
+        "colors": {
+            "error": "#e03f3f",
+            "success": "#3fe06d",
+            "neutral": "#f3f3f3"
+        },
+        "footer": {
+            "image": "https://cdn.discordapp.com/attachments/925795705229025290/926905119335936010/mhvotifier.png",
+            "text": "Minehut Votifier • https://discord.gg/QzSP6A2GUB"
+        },
+        "titles": {
+            "error": "Error",
+            "success": "Success",
+            "neutral": "Votifier"
+        },
+        "messages": {
+            "no_permission": "You do not have permission to use this command! ({0})",
+            "setup": {
+                "successful": {
+                    "title": "Server Setup",
+                    "desc": "Server creation successful!\nUse `/connection` to get the connection information."
+                },
+                "has_server": "You already have a server! Use `/connection` to get the connection information."
+            },
+            "connection": {
+                "dm": {
+                    "title": "Connection Information",
+                    "desc": "**WARNING: Do not share this with anyone!**\n**Sharing this will let anyone fake votes for your server.**"
+                },
+                "sent": "Sent you a DM with connection information!",
+                "dms_off": "Could not DM you the connection information! Please enable your server DMs.",
+                "no_server": "You do not have a server! Use `/setup` to set one up."
+            },
+            "disconnect": {
+                "own": {
+                    "success": "Successfully disconnected {0} from the socket.",
+                    "invalid": "That server is not connected or does not exist!"
+                },
+                "other": {
+                    "success": "Successfully disconnected {0} from the socket.",
+                    "invalid": "That server is not connected or does not exist!"
+                }
+            }
+        }
+    }
+}
