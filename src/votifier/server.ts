@@ -29,7 +29,7 @@ export class VotifierServer extends events.EventEmitter {
 
     public handleConnection(socket: net.Socket) {
         logger.debug('New connection');
-        socket.once('data', (bData) => {
+        socket.on('data', (bData) => {
             logger.debug('Received data');
             logger.debug(bData.toString());
             if (bData.length !== 256) {
