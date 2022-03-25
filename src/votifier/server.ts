@@ -28,7 +28,11 @@ export class VotifierServer extends events.EventEmitter {
     }
 
     public handleConnection(socket: net.Socket) {
+        socket.setTimeout(5000);
+
         logger.debug('New connection');
+
+        socket.write('VOTIFIER 1.9');
 
         socket.on('close', (hadError) => {
             logger.debug('Socket closed ' + (hadError ? 'with error' : 'without error'));
@@ -66,7 +70,7 @@ export class VotifierServer extends events.EventEmitter {
             logger.debug('Received data');
             logger.debug(bData.toString());
 
-            socket.write('VOTIFIER MHVOTIFIER');
+            socket.write('VOTIFIER 1.9');
 
             if (bData.length !== 256) {
                 socket.end('Bad data length');

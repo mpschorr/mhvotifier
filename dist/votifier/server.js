@@ -37,7 +37,9 @@ class VotifierServer extends events.EventEmitter {
         this.server.listen(port);
     }
     handleConnection(socket) {
+        socket.setTimeout(5000);
         logger_1.votifierLogger.debug('New connection');
+        socket.write('VOTIFIER 1.9');
         socket.on('close', (hadError) => {
             logger_1.votifierLogger.debug('Socket closed ' + (hadError ? 'with error' : 'without error'));
         });
@@ -65,7 +67,7 @@ class VotifierServer extends events.EventEmitter {
         socket.on('data', (bData) => {
             logger_1.votifierLogger.debug('Received data');
             logger_1.votifierLogger.debug(bData.toString());
-            socket.write('VOTIFIER MHVOTIFIER');
+            socket.write('VOTIFIER 1.9');
             if (bData.length !== 256) {
                 socket.end('Bad data length');
                 socket.destroy();
