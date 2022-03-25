@@ -29,10 +29,25 @@ export class VotifierServer extends events.EventEmitter {
 
     public handleConnection(socket: net.Socket) {
         logger.debug('New connection');
-        // logger.debug(socket);
+
+        socket.on('error', (error: Error) => {
+            logger.debug('Error ' + error);
+        });
+
+        socket.on('ready', () => {
+            logger.debug('Socket ready');
+        });
+
+        socket.on('close', (hadError) => {
+            logger.debug('Socket closed ' + (hadError ? 'with error' : 'without error'));
+        });
+
         socket.on('data', (bData) => {
             logger.debug('Received data');
             logger.debug(bData.toString());
+
+            socket.write('VOTIFIER MHVOTIFIER');
+
             if (bData.length !== 256) {
                 socket.end('Bad data length');
                 socket.destroy();
@@ -41,7 +56,6 @@ export class VotifierServer extends events.EventEmitter {
             }
 
             this.emit('data', bData);
-            socket.write('VOTIFIER MHVOTIFIER');
             return socket.destroy();
         });
     }
