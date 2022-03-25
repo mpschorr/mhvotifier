@@ -30,8 +30,6 @@ export class VotifierServer extends events.EventEmitter {
     public handleConnection(socket: net.Socket) {
         socket.setTimeout(5000);
 
-        logger.debug('New connection');
-
         socket.write('VOTIFIER 1.9');
 
         socket.on('error', (error: Error) => {
