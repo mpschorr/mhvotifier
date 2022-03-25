@@ -58,6 +58,7 @@ export function setupVotifier() {
             if (!sdata.startsWith('VOTE')) continue;
 
             const data = sdata.split('\n');
+            logger.debug(data, data.length);
             if (data.length !== 4) continue;
 
             const vote = {
