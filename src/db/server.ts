@@ -66,6 +66,10 @@ export class Servers {
         return await ServerModel.find();
     }
 
+    public static async getByName(name: string): Promise<Server | null> {
+        return await ServerModel.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
+    }
+
     //#endregion
 
     //#region other

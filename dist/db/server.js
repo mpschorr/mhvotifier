@@ -49,6 +49,9 @@ class Servers {
     static async getAll() {
         return await ServerModel.find();
     }
+    static async getByName(name) {
+        return await ServerModel.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
+    }
     //#endregion
     //#region other
     static async addVote(query) {

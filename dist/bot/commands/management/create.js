@@ -36,9 +36,7 @@ class Ping extends framework_1.Command {
             });
         }
         const name = interaction.options.getString('name');
-        server = await db_1.Servers.get({
-            name: { $regex: new RegExp(`^${name}$`, 'i') },
-        });
+        server = await db_1.Servers.getByName(name);
         if (server) {
             return interaction.reply({
                 embeds: [embed_1.EmbedUtil.error('A server with that name already exists! Please choose a different one.')],

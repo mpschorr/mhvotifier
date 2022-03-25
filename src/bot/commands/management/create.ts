@@ -42,9 +42,7 @@ export class Ping extends Command {
 
         const name = interaction.options.getString('name')!;
 
-        server = await Servers.get({
-            name: { $regex: new RegExp(`^${name}$`, 'i') },
-        });
+        server = await Servers.getByName(name);
 
         if (server) {
             return interaction.reply({
