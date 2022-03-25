@@ -34,42 +34,16 @@ export class VotifierServer extends events.EventEmitter {
 
         socket.write('VOTIFIER 1.9');
 
-        socket.on('close', (hadError) => {
-            logger.debug('Socket closed ' + (hadError ? 'with error' : 'without error'));
-        });
-
-        socket.on('connect', () => {
-            logger.debug('Socket connected');
-        });
-
-        socket.on('drain', () => {
-            logger.debug('Socket drained');
-        });
-
-        socket.on('end', () => {
-            logger.debug('Socket ended');
-        });
-
         socket.on('error', (error: Error) => {
             logger.debug('Socket error ' + error);
         });
 
-        socket.on('lookup', (error: Error, address: string, family: string | number, host: string) => {
-            logger.debug('Socket lookup ' + error + address + ' ' + family + ' ' + host);
-        });
-
-        socket.on('ready', () => {
-            logger.debug('Socket ready');
-        });
-
         socket.on('timeout', () => {
-            logger.debug('Socket timeout');
+            socket.end();
+            socket.destroy();
         });
 
         socket.on('data', (bData) => {
-            logger.debug('Received data');
-            logger.debug(bData.toString());
-
             socket.write('VOTIFIER 1.9');
 
             if (bData.length !== 256) {
@@ -80,7 +54,8 @@ export class VotifierServer extends events.EventEmitter {
             }
 
             this.emit('data', bData);
-            return socket.destroy();
+            socket.end();
+            socket.destroy();
         });
     }
 }

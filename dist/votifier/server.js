@@ -40,33 +40,14 @@ class VotifierServer extends events.EventEmitter {
         socket.setTimeout(5000);
         logger_1.votifierLogger.debug('New connection');
         socket.write('VOTIFIER 1.9');
-        socket.on('close', (hadError) => {
-            logger_1.votifierLogger.debug('Socket closed ' + (hadError ? 'with error' : 'without error'));
-        });
-        socket.on('connect', () => {
-            logger_1.votifierLogger.debug('Socket connected');
-        });
-        socket.on('drain', () => {
-            logger_1.votifierLogger.debug('Socket drained');
-        });
-        socket.on('end', () => {
-            logger_1.votifierLogger.debug('Socket ended');
-        });
         socket.on('error', (error) => {
             logger_1.votifierLogger.debug('Socket error ' + error);
         });
-        socket.on('lookup', (error, address, family, host) => {
-            logger_1.votifierLogger.debug('Socket lookup ' + error + address + ' ' + family + ' ' + host);
-        });
-        socket.on('ready', () => {
-            logger_1.votifierLogger.debug('Socket ready');
-        });
         socket.on('timeout', () => {
-            logger_1.votifierLogger.debug('Socket timeout');
+            socket.end();
+            socket.destroy();
         });
         socket.on('data', (bData) => {
-            logger_1.votifierLogger.debug('Received data');
-            logger_1.votifierLogger.debug(bData.toString());
             socket.write('VOTIFIER 1.9');
             if (bData.length !== 256) {
                 socket.end('Bad data length');
@@ -75,7 +56,8 @@ class VotifierServer extends events.EventEmitter {
                 return;
             }
             this.emit('data', bData);
-            return socket.destroy();
+            socket.end();
+            socket.destroy();
         });
     }
 }
