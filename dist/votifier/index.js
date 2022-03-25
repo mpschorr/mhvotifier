@@ -52,8 +52,7 @@ function setupVotifier() {
             if (!sdata.startsWith('VOTE'))
                 continue;
             const data = sdata.split('\n');
-            logger_1.votifierLogger.debug(data, data.length);
-            if (data.length !== 4)
+            if (data.length !== 6)
                 continue;
             const vote = {
                 user: data[2],
