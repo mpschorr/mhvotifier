@@ -38,14 +38,29 @@ class VotifierServer extends events.EventEmitter {
     }
     handleConnection(socket) {
         logger_1.votifierLogger.debug('New connection');
+        socket.on('close', (hadError) => {
+            logger_1.votifierLogger.debug('Socket closed ' + (hadError ? 'with error' : 'without error'));
+        });
+        socket.on('connect', () => {
+            logger_1.votifierLogger.debug('Socket connected');
+        });
+        socket.on('drain', () => {
+            logger_1.votifierLogger.debug('Socket drained');
+        });
+        socket.on('end', () => {
+            logger_1.votifierLogger.debug('Socket ended');
+        });
         socket.on('error', (error) => {
-            logger_1.votifierLogger.debug('Error ' + error);
+            logger_1.votifierLogger.debug('Socket error ' + error);
+        });
+        socket.on('lookup', (error, address, family, host) => {
+            logger_1.votifierLogger.debug('Socket lookup ' + error + address + ' ' + family + ' ' + host);
         });
         socket.on('ready', () => {
             logger_1.votifierLogger.debug('Socket ready');
         });
-        socket.on('close', (hadError) => {
-            logger_1.votifierLogger.debug('Socket closed ' + (hadError ? 'with error' : 'without error'));
+        socket.on('timeout', () => {
+            logger_1.votifierLogger.debug('Socket timeout');
         });
         socket.on('data', (bData) => {
             logger_1.votifierLogger.debug('Received data');
