@@ -23,20 +23,43 @@ export function setupVotifier() {
             if (!dbserver.rsa) continue;
             if (!dbserver.rsa.private) continue;
 
-            const privateKey = createPrivateKey(dbserver.rsa.private);
-            const decoded = privateDecrypt(
-                {
-                    key: privateKey,
-                    padding: constants.RSA_PKCS1_PADDING,
-                },
-                bdata,
-            );
+            let privateKey;
+            let decoded;
+            let sdata = '';
 
-            const sdata = decoded.toString();
+            try {
+                privateKey = createPrivateKey(dbserver.rsa.private);
+                decoded = privateDecrypt(
+                    {
+                        key: privateKey,
+                        padding: constants.RSA_PKCS1_PADDING,
+                    },
+                    bdata,
+                );
+                sdata = decoded.toString();
+            } catch (error) {
+                const connected = ServerMap.get(server.name);
+                if (!connected) return;
+                if (!connected.socket) return;
+                connected.socket.send(
+                    JSON.stringify({
+                        name: 'ERROR',
+                        data: {
+                            message: 'Decryption error',
+                            code: 3,
+                        },
+                    } as OutgoingSocketMessage),
+                );
+                connected.socket.close();
+                // logger.error(error);
+            }
+
             logger.debug(`Trying to decode server ${server.name}`);
             if (!sdata.startsWith('VOTE')) continue;
 
             const data = sdata.split('\n');
+            if (data.length !== 4) continue;
+
             const vote = {
                 user: data[2],
                 service: data[1],
