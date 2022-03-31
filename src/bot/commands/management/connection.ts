@@ -42,6 +42,7 @@ export class Ping extends Command {
             'Connection Information',
             '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to impersonate you.',
         )
+            .addField('IP', '144.126.152.115')
             .addField('Name', server.name ?? 'None! Please contact an administrator.')
             .addField('Password', server.password ?? 'None! Please contact an administrator.');
 
