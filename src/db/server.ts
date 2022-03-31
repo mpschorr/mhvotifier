@@ -70,6 +70,10 @@ export class Servers {
         return await ServerModel.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
     }
 
+    public static async getSorted(min: number, max: number): Promise<Server[]> {
+        return await ServerModel.find().sort({ votes: -1 }).skip(min).limit(max);
+    }
+
     //#endregion
 
     //#region other
@@ -84,6 +88,10 @@ export class Servers {
                 new: true,
             },
         );
+    }
+
+    public static async count(): Promise<number> {
+        return await ServerModel.estimatedDocumentCount();
     }
 
     //#endregion

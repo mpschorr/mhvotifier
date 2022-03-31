@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { SlashCommandBuilder } from '@discordjs/builders';
+import { SlashCommandBuilder, SlashCommandStringOption } from '@discordjs/builders';
 import { ApplicationCommandRegistry, Command, RegisterBehavior } from '@sapphire/framework';
 import { CommandInteraction } from 'discord.js';
 import { Servers } from '../../../db';
@@ -10,13 +10,15 @@ export class Ping extends Command {
     public constructor(context: Command.Context, options: Command.Options) {
         super(context, {
             ...options,
-            name: 'connection',
-            description: 'Gets connection information for your server',
+            name: 'votes',
+            description: 'Get how many votes a server has',
         });
     }
 
     public registerApplicationCommands(registry: ApplicationCommandRegistry) {
         const command = new SlashCommandBuilder().setName(this.name).setDescription(this.description);
+
+        command.addStringOption(new SlashCommandStringOption().setName('name').setDescription('The name of the server').setRequired(true));
 
         logger.info(`Registering command /${this.name}`);
 
@@ -27,27 +29,29 @@ export class Ping extends Command {
     }
 
     public async chatInputRun(interaction: CommandInteraction) {
-        const server = await Servers.get({
-            owner: interaction.member!.user.id,
-        });
+        const name = interaction.options.getString('name');
+        if (!name) return;
+
+        const server = await Servers.getByName(name);
 
         if (!server) {
             return interaction.reply({
-                embeds: [EmbedUtil.error('You do not have a server! Use `/create` to create one.')],
+                embeds: [EmbedUtil.error('Server not found!')],
                 ephemeral: true,
             });
         }
 
-        const embed = EmbedUtil.neutral(
-            'Connection Information',
-            '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to impersonate you.',
-        )
-            .addField('Name', server.name ?? 'None! Please contact an administrator.')
-            .addField('Key', server.key ?? 'None! Please contact an administrator.');
-
         interaction.reply({
-            embeds: [embed],
+            embeds: [EmbedUtil.neutral('Votes', `**${server.name}** has ${server.votes} votes`)],
             ephemeral: true,
         });
+        // const then = Date.now();
+        // await interaction.reply({
+        //     content: 'Pinging...',
+        //     ephemeral: true,
+        // });
+        // interaction.editReply({
+        //     content: `:ping_pong: **Pong!**\n\nBot ping: ${Date.now() - then}ms\nWebsocket ping: ${interaction.client.ws.ping}ms`,
+        // });
     }
 }
