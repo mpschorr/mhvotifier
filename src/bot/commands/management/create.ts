@@ -42,6 +42,13 @@ export class Ping extends Command {
 
         const name = interaction.options.getString('name')!;
 
+        if (name.length > 16) {
+            return interaction.reply({
+                embeds: [EmbedUtil.error('The server name must be 16 characters or less.')],
+                ephemeral: true,
+            });
+        }
+
         server = await Servers.getByName(name);
 
         if (server) {
