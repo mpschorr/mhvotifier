@@ -36,6 +36,12 @@ class Ping extends framework_1.Command {
             });
         }
         const name = interaction.options.getString('name');
+        if (name.length > 16) {
+            return interaction.reply({
+                embeds: [embed_1.EmbedUtil.error('The server name must be 16 characters or less.')],
+                ephemeral: true,
+            });
+        }
         server = await db_1.Servers.getByName(name);
         if (server) {
             return interaction.reply({

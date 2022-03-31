@@ -52,6 +52,9 @@ class Servers {
     static async getByName(name) {
         return await ServerModel.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
     }
+    static async getSorted(min, max) {
+        return await ServerModel.find().sort({ votes: -1 }).skip(min).limit(max);
+    }
     //#endregion
     //#region other
     static async addVote(query) {
@@ -60,6 +63,9 @@ class Servers {
         }, {
             new: true,
         });
+    }
+    static async count() {
+        return await ServerModel.estimatedDocumentCount();
     }
 }
 exports.Servers = Servers;

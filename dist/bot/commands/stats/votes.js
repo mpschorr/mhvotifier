@@ -11,12 +11,13 @@ class Ping extends framework_1.Command {
     constructor(context, options) {
         super(context, {
             ...options,
-            name: 'connection',
-            description: 'Gets connection information for your server',
+            name: 'votes',
+            description: 'Get how many votes a server has',
         });
     }
     registerApplicationCommands(registry) {
         const command = new builders_1.SlashCommandBuilder().setName(this.name).setDescription(this.description);
+        command.addStringOption(new builders_1.SlashCommandStringOption().setName('name').setDescription('The name of the server').setRequired(true));
         logger_1.botLogger.info(`Registering command /${this.name}`);
         registry.registerChatInputCommand(command, {
             guildIds: [process.env.BOT_GUILD],
@@ -24,24 +25,29 @@ class Ping extends framework_1.Command {
         });
     }
     async chatInputRun(interaction) {
-        var _a, _b;
-        const server = await db_1.Servers.get({
-            owner: interaction.member.user.id,
-        });
+        const name = interaction.options.getString('name');
+        if (!name)
+            return;
+        const server = await db_1.Servers.getByName(name);
         if (!server) {
             return interaction.reply({
-                embeds: [embed_1.EmbedUtil.error('You do not have a server! Use `/create` to create one.')],
+                embeds: [embed_1.EmbedUtil.error('Server not found!')],
                 ephemeral: true,
             });
         }
-        const embed = embed_1.EmbedUtil.neutral('Connection Information', '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to impersonate you.')
-            .addField('Name', (_a = server.name) !== null && _a !== void 0 ? _a : 'None! Please contact an administrator.')
-            .addField('Key', (_b = server.key) !== null && _b !== void 0 ? _b : 'None! Please contact an administrator.');
         interaction.reply({
-            embeds: [embed],
+            embeds: [embed_1.EmbedUtil.neutral('Votes', `**${server.name}** has ${server.votes} votes`)],
             ephemeral: true,
         });
+        // const then = Date.now();
+        // await interaction.reply({
+        //     content: 'Pinging...',
+        //     ephemeral: true,
+        // });
+        // interaction.editReply({
+        //     content: `:ping_pong: **Pong!**\n\nBot ping: ${Date.now() - then}ms\nWebsocket ping: ${interaction.client.ws.ping}ms`,
+        // });
     }
 }
 exports.Ping = Ping;
-//# sourceMappingURL=connection.js.map
+//# sourceMappingURL=votes.js.map
