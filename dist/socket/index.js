@@ -10,10 +10,10 @@ const wss = new ws_1.Server({ server });
 wss.on('connection', async (socket, req) => {
     var _a, _b;
     const servername = ((_a = req.headers['auth-server']) !== null && _a !== void 0 ? _a : '');
-    const serverkey = ((_b = req.headers['auth-key']) !== null && _b !== void 0 ? _b : '');
+    const serverpass = ((_b = req.headers['auth-password']) !== null && _b !== void 0 ? _b : '');
     const server = db_1.Servers.get({
         name: servername,
-        key: serverkey,
+        key: serverpass,
     });
     if (!server) {
         socket.send(JSON.stringify({

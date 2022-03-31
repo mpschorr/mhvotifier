@@ -7,7 +7,7 @@ const uuid_1 = require("uuid");
 const ServerSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     owner: { type: String, required: true },
-    key: { type: String, required: true },
+    password: { type: String, required: true },
     votes: { type: Number, required: true },
     rsa: {
         private: { type: String, required: true },
@@ -19,11 +19,11 @@ class Servers {
     //#region Management
     static async create(name, owner) {
         const rsa = (0, crypto_1.generateKeyPairSync)('rsa', { modulusLength: 2048 });
-        const key = (0, uuid_1.v4)().replace(/-/g, '');
+        const password = (0, uuid_1.v4)().replace(/-/g, '');
         return await new ServerModel({
             name,
             owner,
-            key: key,
+            password: password,
             votes: 0,
             rsa: {
                 public: rsa.publicKey.export({

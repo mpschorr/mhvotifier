@@ -43,7 +43,7 @@ export class Ping extends Command {
             '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to impersonate you.',
         )
             .addField('Name', server.name ?? 'None! Please contact an administrator.')
-            .addField('Key', server.key ?? 'None! Please contact an administrator.');
+            .addField('Password', server.password ?? 'None! Please contact an administrator.');
 
         interaction.reply({
             embeds: [embed],

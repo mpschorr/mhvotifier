@@ -36,7 +36,7 @@ class Ping extends framework_1.Command {
         }
         const embed = embed_1.EmbedUtil.neutral('Connection Information', '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to impersonate you.')
             .addField('Name', (_a = server.name) !== null && _a !== void 0 ? _a : 'None! Please contact an administrator.')
-            .addField('Key', (_b = server.key) !== null && _b !== void 0 ? _b : 'None! Please contact an administrator.');
+            .addField('Password', (_b = server.password) !== null && _b !== void 0 ? _b : 'None! Please contact an administrator.');
         interaction.reply({
             embeds: [embed],
             ephemeral: true,

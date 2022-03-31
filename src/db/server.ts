@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 export interface Server {
     name?: string;
     owner?: string;
-    key?: string;
+    password?: string;
     votes?: number;
     rsa?: {
         private?: string;
@@ -16,7 +16,7 @@ export interface Server {
 const ServerSchema = new Schema<Server>({
     name: { type: String, required: true },
     owner: { type: String, required: true },
-    key: { type: String, required: true },
+    password: { type: String, required: true },
     votes: { type: Number, required: true },
     rsa: {
         private: { type: String, required: true },
@@ -31,11 +31,11 @@ export class Servers {
 
     public static async create(name: string, owner: string) {
         const rsa = generateKeyPairSync('rsa', { modulusLength: 2048 });
-        const key = uuidv4().replace(/-/g, '');
+        const password = uuidv4().replace(/-/g, '');
         return await new ServerModel({
             name,
             owner,
-            key: key,
+            password: password,
             votes: 0,
             rsa: {
                 public: rsa.publicKey.export({

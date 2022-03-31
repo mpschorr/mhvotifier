@@ -11,11 +11,11 @@ const wss = new Server({ server });
 
 wss.on('connection', async (socket: ws, req: IncomingMessage) => {
     const servername = (req.headers['auth-server'] ?? '') as string;
-    const serverkey = (req.headers['auth-key'] ?? '') as string;
+    const serverpass = (req.headers['auth-password'] ?? '') as string;
 
     const server = Servers.get({
         name: servername,
-        key: serverkey,
+        key: serverpass,
     });
 
     if (!server) {
