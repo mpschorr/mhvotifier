@@ -35,7 +35,10 @@ class Ping extends framework_1.Command {
             });
         }
         const key = (_a = server.rsa.public) === null || _a === void 0 ? void 0 : _a.replace('-----BEGIN PUBLIC KEY-----', '').replace('-----END PUBLIC KEY-----', '').replace(/\n/g, '');
-        const embed = embed_1.EmbedUtil.neutral('Votifier Keys', '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to fake votes.').addField('Key', `\`\`\`${key}\`\`\``);
+        const embed = embed_1.EmbedUtil.neutral('Votifier Keys', '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to fake votes.')
+            .addField('Votifier IP/Host', '`144.126.152.115`')
+            .addField('Votifier Port', '`8192`')
+            .addField('Key', `\`\`\`${key}\`\`\``);
         interaction.reply({
             embeds: [embed],
             ephemeral: true,

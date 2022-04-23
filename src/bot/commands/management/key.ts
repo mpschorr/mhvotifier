@@ -43,7 +43,10 @@ export class Ping extends Command {
         const embed = EmbedUtil.neutral(
             'Votifier Keys',
             '**WARNING!**\nDo not share this information with anybody!\nThis information can allow people to fake votes.',
-        ).addField('Key', `\`\`\`${key}\`\`\``);
+        )
+            .addField('Votifier IP/Host', '`144.126.152.115`')
+            .addField('Votifier Port', '`8192`')
+            .addField('Key', `\`\`\`${key}\`\`\``);
 
         interaction.reply({
             embeds: [embed],
