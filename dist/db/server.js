@@ -14,12 +14,12 @@ const ServerSchema = new mongoose_1.Schema({
         public: { type: String, required: true },
     },
 });
-const ServerModel = (0, mongoose_1.model)('Server', ServerSchema);
+const ServerModel = mongoose_1.model('Server', ServerSchema);
 class Servers {
     //#region Management
     static async create(name, owner) {
-        const rsa = (0, crypto_1.generateKeyPairSync)('rsa', { modulusLength: 2048 });
-        const password = (0, uuid_1.v4)().replace(/-/g, '');
+        const rsa = crypto_1.generateKeyPairSync('rsa', { modulusLength: 2048 });
+        const password = uuid_1.v4().replace(/-/g, '');
         return await new ServerModel({
             name,
             owner,

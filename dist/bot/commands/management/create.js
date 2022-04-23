@@ -55,7 +55,7 @@ class Ping extends framework_1.Command {
             embeds: [embed],
             ephemeral: true,
         });
-        (0, logger_1.publishlog)('creations', 'create', `${(_a = interaction.member) === null || _a === void 0 ? void 0 : _a.user.username} created a server named ${name}`);
+        logger_1.publishlog('creations', 'create', `${(_a = interaction.member) === null || _a === void 0 ? void 0 : _a.user.username} created a server named ${name}`);
     }
 }
 exports.Ping = Ping;

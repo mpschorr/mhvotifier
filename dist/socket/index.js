@@ -5,7 +5,7 @@ const ws_1 = require("ws");
 const logger_1 = require("../logger");
 const server_1 = require("../server");
 const db_1 = require("../db");
-const server = (0, http_1.createServer)();
+const server = http_1.createServer();
 const wss = new ws_1.Server({ server });
 wss.on('connection', async (socket, req) => {
     var _a, _b;

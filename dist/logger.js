@@ -5,7 +5,7 @@ exports.publishlog = exports.setupLogger = exports.votifierLogger = exports.dbLo
 const log4js_1 = require("log4js");
 const logsnag_1 = require("logsnag");
 function setupLogger() {
-    (0, log4js_1.configure)({
+    log4js_1.configure({
         appenders: {
             console: {
                 type: 'console',
@@ -38,10 +38,10 @@ function setupLogger() {
             },
         },
     });
-    exports.botLogger = (0, log4js_1.getLogger)('BOT');
-    exports.socketLogger = (0, log4js_1.getLogger)('SOCKET');
-    exports.dbLogger = (0, log4js_1.getLogger)('DB');
-    exports.votifierLogger = (0, log4js_1.getLogger)('VOTIFIER');
+    exports.botLogger = log4js_1.getLogger('BOT');
+    exports.socketLogger = log4js_1.getLogger('SOCKET');
+    exports.dbLogger = log4js_1.getLogger('DB');
+    exports.votifierLogger = log4js_1.getLogger('VOTIFIER');
     exports.logsnag = new logsnag_1.LogSnag(process.env.LOGSNAG_TOKEN);
 }
 exports.setupLogger = setupLogger;

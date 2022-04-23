@@ -25,8 +25,8 @@ function setupVotifier() {
             let decoded;
             let sdata = '';
             try {
-                privateKey = (0, crypto_1.createPrivateKey)(dbserver.rsa.private);
-                decoded = (0, crypto_1.privateDecrypt)({
+                privateKey = crypto_1.createPrivateKey(dbserver.rsa.private);
+                decoded = crypto_1.privateDecrypt({
                     key: privateKey,
                     padding: crypto_1.constants.RSA_PKCS1_PADDING,
                 }, bdata);
